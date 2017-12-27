@@ -1,4 +1,4 @@
-package com.abhiandroid.tablayoutexample;
+package com.abhiandroid.Activities;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

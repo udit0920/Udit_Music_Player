@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    android:background="#352c2c"
+    android:background="#1F2D38"
     android:orientation="vertical">
 
     <LinearLayout
@@ -14,13 +14,22 @@
         android:gravity="center_vertical">
 
         <Button
+            android:id="@+id/btn_play"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/ic_play_arrow_white_24dp" />
+        <Button
+            android:id="@+id/btn_pause"
+            android:visibility="gone"
+            android:background="@drawable/ic_pause_white_24dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp" />
 
     </LinearLayout>
 
     <LinearLayout
+        android:layout_toLeftOf="@+id/song_duration"
+        android:id="@+id/songs_info"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_marginLeft="45dp"
@@ -32,6 +41,7 @@
             android:id="@+id/tv_song_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
             android:textColor="#ffffff"
             android:textSize="15dp"
             android:textStyle="bold"
@@ -42,7 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/tv_song_name"
-            android:layout_marginTop="6dp"
+            android:layout_marginTop="3dp"
+            android:maxLines="1"
             android:textColor="#706363"
             android:textSize="12dp"
             android:textStyle="bold"
@@ -51,12 +62,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/song_duration"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical">
 
         <TextView
+            android:layout_marginLeft="15dp"
+            android:id="@+id/tv_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="20dp"
@@ -64,5 +78,13 @@
             tools:text="4:24" />
 
     </LinearLayout>
+
+    <View
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:background="#808080" />
 
 </RelativeLayout>
