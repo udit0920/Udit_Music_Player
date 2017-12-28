@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
 
 import java.io.IOException;
 
@@ -13,8 +14,8 @@ import java.io.IOException;
  */
 public class MusicService extends Service {
 
-    MediaPlayer mediaPlayer;
-
+    static MediaPlayer mediaPlayer;
+    int position;
 
     public MusicService(){
 
@@ -24,6 +25,8 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        mediaPlayer = new  MediaPlayer();
+        Toast.makeText(getBaseContext(),"CHAMP",Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -32,9 +35,9 @@ public class MusicService extends Service {
         if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
             mediaPlayer.stop();
         }
-
+        position = intent.getIntExtra("position",0);
         String PATH_TO_FILE = intent.getStringExtra("file_path");
-        mediaPlayer = new  MediaPlayer();
+
         try {
             mediaPlayer.setDataSource(PATH_TO_FILE);
         } catch (IOException e) {
@@ -45,14 +48,31 @@ public class MusicService extends Service {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                performOnEnd();
+            }
+
+        });
         mediaPlayer.start();
         return START_NOT_STICKY;
 
     }
 
+    private void performOnEnd() {
+        Intent intent = new Intent("udit.ButtonState");
+        intent.putExtra("btnState",0);
+        intent.putExtra("position",position);
+        sendBroadcast(intent);
+    }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
-
+    }
 
     @Nullable
     @Override

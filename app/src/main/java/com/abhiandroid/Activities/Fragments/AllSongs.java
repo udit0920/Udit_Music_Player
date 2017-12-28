@@ -87,5 +87,4 @@ public class AllSongs extends Fragment {
     }
 
 
-
 }
