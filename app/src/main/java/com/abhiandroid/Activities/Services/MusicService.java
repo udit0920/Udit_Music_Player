@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -14,7 +15,8 @@ import java.io.IOException;
  */
 public class MusicService extends Service {
 
-    static MediaPlayer mediaPlayer;
+    private static final String TAG = "MusicService";
+    public static MediaPlayer mediaPlayer;
     int position;
 
     public MusicService(){
@@ -25,18 +27,22 @@ public class MusicService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG,"Music Service Created");
         mediaPlayer = new  MediaPlayer();
-        Toast.makeText(getBaseContext(),"CHAMP",Toast.LENGTH_LONG).show();
+//        Toast.makeText(getBaseContext(),"CHAMP",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-//        stopSelf();
-        if(mediaPlayer!=null&&mediaPlayer.isPlaying()){
-            mediaPlayer.stop();
-        }
+
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+
+        Log.d(TAG, "onStartCommand: MediaPlayer "+mediaPlayer);
+//        Toast.makeText(getBaseContext(),"MediaPlayer "+mediaPlayer,Toast.LENGTH_LONG).show();
         position = intent.getIntExtra("position",0);
         String PATH_TO_FILE = intent.getStringExtra("file_path");
+        Log.d(TAG, "onStartCommand: FilePath "+PATH_TO_FILE);
 
         try {
             mediaPlayer.setDataSource(PATH_TO_FILE);
@@ -82,9 +88,7 @@ public class MusicService extends Service {
 
     }
 
-    public void stopMusic(){
-        stopSelf();
-    }
+
 
 
 }

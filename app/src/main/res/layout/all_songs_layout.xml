@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/music_row"
     android:layout_width="match_parent"
     android:layout_height="60dp"
     android:background="#1F2D38"
@@ -13,12 +14,12 @@
         android:layout_marginLeft="15dp"
         android:gravity="center_vertical">
 
-        <Button
+        <ImageView
             android:id="@+id/btn_play"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:background="@drawable/ic_play_arrow_white_24dp" />
-        <Button
+        <ImageView
             android:id="@+id/btn_pause"
             android:visibility="gone"
             android:background="@drawable/ic_pause_white_24dp"

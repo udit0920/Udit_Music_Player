@@ -23,6 +23,8 @@ import com.abhiandroid.Activities.Adapters.AllSongsAdapter;
 
 public class AllSongs extends Fragment {
 
+    AllSongsAdapter adapter;
+
     public AllSongs() {
         // Required empty public constructor
     }
@@ -40,11 +42,18 @@ public class AllSongs extends Fragment {
         List<AudioModel> audioFilesList = getAllAudioFromDevice(getActivity());
         Log.d("", "onCreateView: "+audioFilesList.size());
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv_all_songs);
-        AllSongsAdapter adapter = new AllSongsAdapter(audioFilesList,getActivity());
+        adapter = new AllSongsAdapter(audioFilesList,getActivity());
         rv.setLayoutManager(new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false));
         rv.setAdapter(adapter);
         return view;
     }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        adapter.myOnDestroy();
+    }
+
 
     public List<AudioModel> getAllAudioFromDevice(final Context context) {
 

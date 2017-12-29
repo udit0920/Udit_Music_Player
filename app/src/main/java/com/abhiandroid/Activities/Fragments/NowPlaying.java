@@ -51,7 +51,7 @@ public class NowPlaying extends Fragment {
                 filePath = intent.getStringExtra("filePath");
                 singer = intent.getStringExtra("singer");
                 songName = intent.getStringExtra("songName");
-                Toast.makeText(getActivity(),songName, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(),songName, Toast.LENGTH_LONG).show();
                 tvSinger.setText(singer);
                 tvSongName.setText(songName);
             }
