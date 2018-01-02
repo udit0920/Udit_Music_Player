@@ -1,5 +1,7 @@
 package com.abhiandroid.Activities;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by uditsetia on 26/12/17.
  */
@@ -10,6 +12,7 @@ public class AudioModel {
     String aAlbum;
     String aArtist;
     String duration;
+    int albumID;
     int btnState = -1;
 
 
@@ -27,6 +30,14 @@ public class AudioModel {
 
     public void setaName(String aName) {
         this.aName = aName;
+    }
+
+    public void setAlbumID(int albumID){
+        this.albumID = albumID;
+    }
+
+    public int getAlbumID(){
+        return albumID;
     }
 
     public void setButtonState(int btnState){

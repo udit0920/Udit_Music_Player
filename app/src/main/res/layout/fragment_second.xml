@@ -7,14 +7,20 @@
 
 
     <LinearLayout
+        android:orientation="vertical"
         android:layout_marginBottom="30dp"
         android:layout_marginTop="30dp"
         android:layout_marginRight="30dp"
         android:layout_marginLeft="30dp"
-        android:background="@drawable/music"
         android:layout_above="@+id/display"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+    <ImageView
+        android:background="@drawable/music"
+        android:id="@+id/iv_song_icon"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
     </LinearLayout>
@@ -35,6 +41,7 @@
             tools:text="Not Afraid" />
 
         <TextView
+            android:visibility="gone"
             android:layout_marginLeft="10dp"
             android:id="@+id/tv_singer"
             android:layout_width="wrap_content"
@@ -54,7 +61,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="15dp" />
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/controls"
         android:layout_width="match_parent"
         android:layout_height="60dp"
@@ -65,25 +72,37 @@
 
 
         <Button
+            android:layout_marginRight="10dp"
+            android:id="@+id/btn_previous"
             android:layout_width="35dp"
             android:layout_height="35dp"
             android:background="@drawable/ic_skip_previous_white_24dp" />
 
         <Button
+            android:visibility="gone"
+            android:layout_toRightOf="@+id/btn_previous"
+            android:id="@+id/btn_pause"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="20dp"
             android:background="@drawable/ic_pause_white_24dp" />
 
-
         <Button
+            android:layout_toRightOf="@+id/btn_previous"
+            android:id="@+id/btn_play"
             android:layout_width="35dp"
             android:layout_height="35dp"
-            android:layout_marginLeft="10dp"
+            android:background="@drawable/ic_play_arrow_white_24dp" />
+
+        <Button
+            android:layout_marginLeft="45dp"
+            android:layout_toRightOf="@+id/btn_previous"
+            android:id="@+id/btn_next"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
             android:background="@drawable/ic_skip_next_white_24dp" />
 
 
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </RelativeLayout>

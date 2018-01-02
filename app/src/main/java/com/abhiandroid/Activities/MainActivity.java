@@ -7,8 +7,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.abhiandroid.Activities.Adapters.AllSongsAdapter;
+import com.abhiandroid.Activities.Fragments.AllSongs;
+
 public class MainActivity extends AppCompatActivity {
 
+    AllSongsAdapter adapter;
     ViewPager simpleViewPager;
     TabLayout tabLayout;
 
@@ -43,5 +47,11 @@ public class MainActivity extends AppCompatActivity {
         simpleViewPager.setAdapter(adapter);
         // addOnPageChangeListener event change the tab on slide
         simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

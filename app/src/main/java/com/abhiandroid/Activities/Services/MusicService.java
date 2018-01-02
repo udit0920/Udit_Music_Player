@@ -71,6 +71,7 @@ public class MusicService extends Service {
         Intent intent = new Intent("udit.ButtonState");
         intent.putExtra("btnState",0);
         intent.putExtra("position",position);
+        Log.d(TAG, "performOnEnd: champ");
         sendBroadcast(intent);
     }
 
@@ -83,12 +84,16 @@ public class MusicService extends Service {
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-
         return null;
-
     }
 
+    public void pauseSong(){
+        mediaPlayer.pause();
+    }
 
+    public void playSong(){
+        mediaPlayer.start();
+    }
 
 
 }

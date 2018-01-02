@@ -4,6 +4,9 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +21,7 @@ import android.widget.Toast;
 import com.abhiandroid.Activities.AudioModel;
 import com.abhiandroid.Activities.R;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import com.abhiandroid.Activities.Services.MusicService;
@@ -28,32 +32,38 @@ import com.abhiandroid.Activities.Services.MusicService;
 public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyViewHolder> {
 
     private static final String TAG = "AllSongsAdapter";
-    BroadcastReceiver receiver;
+    public static BroadcastReceiver receiver;
     List<AudioModel> songsList;
-    Context context;
+    public Context context;
     int btnState;
+    public int x = 0;
     MyViewHolder holder;
     Intent intent;
 
     public AllSongsAdapter(List<AudioModel> songsList, Context context) {
         this.songsList = songsList;
-        this.context = context;
+        if (this.context == null)
+            this.context = context;
+    }
+
+    public AllSongsAdapter() {
+
     }
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.all_songs_layout, parent, false);
-        setupBroadCast();
+//        setupBroadCast();
         return new MyViewHolder(view);
     }
 
-    private void setupBroadCast() {
+    public void setupBroadCast() {
 
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-
+                Log.d(TAG, "onReceive champ");
                 btnState = intent.getIntExtra("btnState", 0);
                 int position = intent.getIntExtra("position", 0);
                 Intent intent2 = new Intent(context, MusicService.class);
@@ -67,7 +77,7 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
                 for (int i = 0; i < songsList.size(); i++) {
                     if (i != position + 1) {
                         songsList.get(i).setButtonState(0);
-                    }else{
+                    } else {
                         songsList.get(i).setButtonState(1);
                     }
                 }
@@ -75,14 +85,20 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 
             }
         };
-
-        context.registerReceiver(receiver, new IntentFilter("udit.ButtonState"));
-
+        if (x == 0) {
+            x = 1;
+            context.registerReceiver(receiver, new IntentFilter("udit.ButtonState"));
+        }
     }
 
+    public void registerReceiver() {
+        setupBroadCast();
+    }
 
     public void myOnDestroy() {
-        context.unregisterReceiver(receiver);
+        if (context != null && receiver != null) {
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(receiver);
+        }
     }
 
 
@@ -118,7 +134,7 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
                     }
                     playSong(filePath, position);
                     AllSongsAdapter.this.notifyDataSetChanged();
-                }else{
+                } else {
                     songsList.get(position).setButtonState(0);
                     stopSong(position);
                 }
@@ -167,11 +183,14 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
     private void updateNowPlaying(int position) {
 
         Intent intent = new Intent("udit.nowPlaying");
+        intent.putExtra("position",position);
         intent.putExtra("songName", songsList.get(position).getaName());
         intent.putExtra("singer", songsList.get(position).getaArtist());
         intent.putExtra("filePath", songsList.get(position).getaPath());
+        int albumID = songsList.get(position).getAlbumID();
+//        if(albumID!=null)
+        intent.putExtra("albumID", albumID);
         context.sendBroadcast(intent);
-
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
