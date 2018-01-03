@@ -42,9 +42,27 @@ public class MainActivity extends AppCompatActivity {
         thirdTab.setText("PlayList"); // set the Text for the first Tab
         tabLayout.addTab(thirdTab); // add  the tab at in the TabLayout
 
+
+        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                simpleViewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
         PagerAdapter adapter = new PagerAdapter
                 (getSupportFragmentManager(), tabLayout.getTabCount());
         simpleViewPager.setAdapter(adapter);
+        simpleViewPager.setOffscreenPageLimit(3);
         // addOnPageChangeListener event change the tab on slide
         simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
     }

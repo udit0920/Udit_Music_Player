@@ -33,10 +33,12 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 
     private static final String TAG = "AllSongsAdapter";
     public static BroadcastReceiver receiver;
+    public static BroadcastReceiver receiverUpdatePausePlay;
     List<AudioModel> songsList;
     public Context context;
     int btnState;
     public int x = 0;
+    public int y=0;
     MyViewHolder holder;
     Intent intent;
 
@@ -82,13 +84,34 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
                     }
                 }
                 AllSongsAdapter.this.notifyDataSetChanged();
-
             }
         };
         if (x == 0) {
             x = 1;
             context.registerReceiver(receiver, new IntentFilter("udit.ButtonState"));
         }
+        receiverUpdatePausePlay = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int position = intent.getIntExtra("position", 0);
+                Log.d(TAG, "PAUSEPLAY  "+position);
+                for (int i = 0; i < songsList.size(); i++) {
+                    if (i != position) {
+                        songsList.get(i).setButtonState(0);
+                    } else {
+                        songsList.get(i).setButtonState(1);
+                    }
+                }
+                AllSongsAdapter.this.notifyDataSetChanged();
+
+            }
+        };
+
+        if (y == 0) {
+            y = 1;
+            context.registerReceiver(receiverUpdatePausePlay, new IntentFilter("udit.updateButtonStateFromNowPlaying"));
+        }
+
     }
 
     public void registerReceiver() {
@@ -98,6 +121,7 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
     public void myOnDestroy() {
         if (context != null && receiver != null) {
             LocalBroadcastManager.getInstance(context).unregisterReceiver(receiver);
+            LocalBroadcastManager.getInstance(context).unregisterReceiver(receiverUpdatePausePlay);
         }
     }
 
@@ -171,6 +195,7 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 
 
     private void playSong(String filePath, int position) {
+
         intent = new Intent(context, MusicService.class);
         intent.putExtra("file_path", filePath);
         intent.putExtra("position", position);
@@ -191,6 +216,7 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 //        if(albumID!=null)
         intent.putExtra("albumID", albumID);
         context.sendBroadcast(intent);
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
