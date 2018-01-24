@@ -19,6 +19,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".CreatePlayListDialog"
+            android:theme="@style/Theme.AppCompat.Dialog">
+            <intent-filter>
+                <action android:name="android.intent.action.CreatePlayListDialog" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
         <service android:name=".Services.MusicService" />
 
     </application>

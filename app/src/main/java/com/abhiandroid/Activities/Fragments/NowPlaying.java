@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.ParcelFileDescriptor;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -48,6 +49,14 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
     static TextView tvSongName, tvSinger;
     Thread thread;
 
+    Handler seekHandler = new Handler();
+    Runnable run = new Runnable() {
+        @Override
+        public void run() {
+//            seekUpdation();
+        }
+    };
+
     public NowPlaying() {
         // Required empty public constructor
     }
@@ -77,10 +86,11 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
         nextSong = (Button) view.findViewById(R.id.btn_next);
         pause = (Button) view.findViewById(R.id.btn_pause);
         play = (Button) view.findViewById(R.id.btn_play);
-        thread = new Thread(this);
-//        bar.setEnabled(false);
-        bar.setOnSeekBarChangeListener(this);
 
+//        thread = new Thread(this);
+
+        bar.setEnabled(true);
+        bar.setOnSeekBarChangeListener(this);
 
         pause.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,7 +112,6 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
             }
         });
 
-
         previousSong.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,9 +121,6 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
                 }
                 position = position - 1;
                 Bitmap bmp = null;
-
-                bar.setProgress(0);
-//                bar.setMax(MusicService.mediaPlayer.getDuration());
 
                 String path = AllSongs.audioFilesList.get(position).getaPath();
                 String songName = AllSongs.audioFilesList.get(position).getaName();
@@ -136,15 +142,39 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
                     songIcon.setImageDrawable(null);
                     songIcon.setImageDrawable(drawable);
                 }
+
+                bar.setProgress(0);
+                bar.setMax(MusicService.mediaPlayer.getDuration());
+
                 play.setVisibility(View.GONE);
                 pause.setVisibility(View.VISIBLE);
 
                 Intent broadcastIntent = new Intent("udit.updateButtonStateFromNowPlaying");
-                broadcastIntent.putExtra("position",position);
+                broadcastIntent.putExtra("position", position);
                 getContext().sendBroadcast(broadcastIntent);
 
+//                thread = new Thread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Log.d(TAG, "run: champ");
+//                        int currentPosition = MusicService.mediaPlayer.getCurrentPosition();
+//                        int total = MusicService.mediaPlayer.getDuration();
+//                        while (MusicService.mediaPlayer != null && currentPosition < total) {
+//                            try {
+//                                currentPosition = MusicService.mediaPlayer.getCurrentPosition();
+//                                bar.setProgress(currentPosition);
+//                                Thread.sleep(1000);
+//                            } catch (InterruptedException e) {
+//                                return;
+//                            } catch (Exception e) {
+//                                return;
+//
+//                            }
+//                        }
+//                    }
+//                });
+//                thread.start();
 
-//                new Thread(NowPlaying.this).start();
             }
         });
 
@@ -152,12 +182,13 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
             @Override
             public void onClick(View v) {
 
-                bar.setProgress(0);
                 Intent intent = new Intent(getContext(), MusicService.class);
                 if (position == -1) {
                     position = 0;
                 }
                 position = position + 1;
+
+                Bitmap bmp = null;
 
                 String path = AllSongs.audioFilesList.get(position).getaPath();
                 String songName = AllSongs.audioFilesList.get(position).getaName();
@@ -170,20 +201,51 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
                 tvSongName.setText(songName);
 
                 if (albumID != 0) {
-                    Bitmap bmp = getAlbumart(albumID);
+                    bmp = getAlbumart(albumID);
                     songIcon.setImageBitmap(bmp);
                 }
+
+                if (bmp == null) {
+                    Drawable drawable = getResources().getDrawable(R.drawable.music);
+                    songIcon.setImageDrawable(null);
+                    songIcon.setImageDrawable(drawable);
+                }
+
+
+                bar.setProgress(0);
+                bar.setMax(MusicService.mediaPlayer.getDuration());
+
                 play.setVisibility(View.GONE);
                 pause.setVisibility(View.VISIBLE);
                 Intent broadcastIntent = new Intent("udit.updateButtonStateFromNowPlaying");
-                broadcastIntent.putExtra("position",position);
+                broadcastIntent.putExtra("position", position);
                 getContext().sendBroadcast(broadcastIntent);
+//                seekUpdation();
+
 //                new Thread(NowPlaying.this).start();
+
+//                if (thread != null && thread.isAlive()) {
+//                    thread.interrupt();
+//                }
+////                Toast.makeText(getActivity(),"Now Playing",Toast.LENGTH_LONG).show();
+//                thread = new Thread(NowPlaying.this);
+//                thread.start();
+
             }
         });
         setupBroadCast();
         return view;
     }
+
+
+
+    public void seekUpdation() {
+        if(bar!=null &&MusicService.mediaPlayer!=null ) {
+            bar.setProgress(MusicService.mediaPlayer.getCurrentPosition());
+            seekHandler.postDelayed(run, 1000);
+        }
+    }
+
 
     private void setupBroadCast() {
         receiver = new BroadcastReceiver() {
@@ -211,6 +273,7 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
                 }
                 play.setVisibility(View.GONE);
                 pause.setVisibility(View.VISIBLE);
+//                seekUpdation();
             }
 
         };
@@ -231,7 +294,6 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
     private void displayInfo(Intent intent) {
         Bitmap bmp = null;
         position = intent.getIntExtra("position", 0);
-//        filePath = intent.getStringExtra("filePath");
         position = position + 1;
         songName = AllSongs.audioFilesList.get(position).getaName();
         tvSongName.setText(songName);
@@ -313,18 +375,7 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 
     @Override
     public void run() {
-        int currentPosition = MusicService.mediaPlayer.getCurrentPosition();
-        int total = MusicService.mediaPlayer.getDuration();
-        while (MusicService.mediaPlayer != null && currentPosition < total) {
-            try {
-                Thread.sleep(100);
-                currentPosition = MusicService.mediaPlayer.getCurrentPosition();
-            } catch (InterruptedException e) {
-                return;
-            } catch (Exception e) {
-                return;
-            }
-            bar.setProgress(currentPosition);
-        }
+
     }
+
 }

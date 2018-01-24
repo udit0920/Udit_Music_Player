@@ -35,8 +35,9 @@ public class MusicService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
 
-        mediaPlayer.stop();
-        mediaPlayer.reset();
+
+            mediaPlayer.stop();
+            mediaPlayer.reset();
 
         Log.d(TAG, "onStartCommand: MediaPlayer "+mediaPlayer);
 //        Toast.makeText(getBaseContext(),"MediaPlayer "+mediaPlayer,Toast.LENGTH_LONG).show();
@@ -51,6 +52,15 @@ public class MusicService extends Service {
         }
         try {
             mediaPlayer.prepare();
+            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                @Override
+                public void onPrepared(MediaPlayer mp) {
+                    mp.start();
+                }
+            });
+//            mediaPlayer.prepareAsync();
+//            mediaPlayer.setOnPreparedListener(this);
+//            mediaPlayer.prepareAsync();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -66,6 +76,11 @@ public class MusicService extends Service {
         return START_NOT_STICKY;
 
     }
+
+
+
+
+
 
     private void performOnEnd() {
         Intent intent = new Intent("udit.ButtonState");
