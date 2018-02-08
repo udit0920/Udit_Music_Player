@@ -67,12 +67,21 @@ public class MainActivity extends AppCompatActivity {
 			}
 		});
 		PagerAdapter adapter = new PagerAdapter
-				(getSupportFragmentManager(), tabLayout.getTabCount(), tabLayout,simpleViewPager);
+				(getSupportFragmentManager(), tabLayout.getTabCount(), tabLayout, simpleViewPager);
 		simpleViewPager.setAdapter(adapter);
 		simpleViewPager.setOffscreenPageLimit(4);
 		// addOnPageChangeListener event change the tab on slide
 		simpleViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 	}
+
+	public void updateAllSongsPausePlayState () {
+
+		
+
+
+
+	}
+
 
 	@Override
 	protected void onDestroy () {

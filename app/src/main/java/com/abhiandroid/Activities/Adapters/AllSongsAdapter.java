@@ -226,10 +226,12 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 	private void stopSong (int position) {
 		//		NowPlaying.bar.setMax(100);
 		//		NowPlaying.bar.setProgress(0);
-		MusicService.mediaPlayer.stop();
+		MusicService.mediaPlayer.pause();
 
+		Log.d(TAG, "stopSong: " + MusicService.mediaPlayer.getDuration());
 		//		MusicService.mediaPlayer.reset();
 		this.notifyItemChanged(position);
+		updateNowPlaying(position);
 
 	}
 

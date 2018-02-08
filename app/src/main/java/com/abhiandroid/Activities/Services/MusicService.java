@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by uditsetia on 27/12/17.
  */
 public class MusicService extends Service {
-
+	static String PATH_TO_FILE;
 	private static final String TAG = "MusicService";
 	public static MediaPlayer mediaPlayer;
 	static MusicService musicService;
@@ -55,7 +55,7 @@ public class MusicService extends Service {
 		songSource = intent.getStringExtra("Song_Source");
 
 		position = intent.getIntExtra("position", 0);
-		String PATH_TO_FILE = intent.getStringExtra("file_path");
+		PATH_TO_FILE = intent.getStringExtra("file_path");
 
 		try {
 			mediaPlayer.setDataSource(PATH_TO_FILE);
@@ -133,7 +133,23 @@ public class MusicService extends Service {
 	}
 
 	public void playSong () {
-		mediaPlayer.start();
+
+
+		if (mediaPlayer.getCurrentPosition() > 0) {
+			Log.d(TAG, "playSong:33 " + mediaPlayer.getCurrentPosition());
+			mediaPlayer.start();
+		} else {
+			Log.d(TAG, "playSong:22 ");
+			mediaPlayer.reset();
+			try {
+				mediaPlayer.setDataSource(PATH_TO_FILE);
+				mediaPlayer.prepare();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+
+		}
+
 	}
 
 

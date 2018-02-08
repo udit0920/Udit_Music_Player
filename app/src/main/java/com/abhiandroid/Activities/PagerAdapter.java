@@ -15,6 +15,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 	int mNumOfTabs;
 	TabLayout tabLayout;
 	ViewPager viewPager;
+	
 
 	public PagerAdapter (FragmentManager fm, int NumOfTabs, TabLayout tabLayout, ViewPager viewPager) {
 		super(fm);

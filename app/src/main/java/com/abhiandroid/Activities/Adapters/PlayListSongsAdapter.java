@@ -75,9 +75,7 @@ public class PlayListSongsAdapter extends RecyclerView.Adapter<PlayListSongsAdap
 				for (int i = 0; i < songsList.size(); i++) {
 					songsList.get(i).setButtonState(0);
 				}
-
 				PlayListSongsAdapter.this.notifyDataSetChanged();
-
 			}
 		};
 

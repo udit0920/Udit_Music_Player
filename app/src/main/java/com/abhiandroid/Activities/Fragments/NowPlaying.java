@@ -122,6 +122,7 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 				service.pauseSong();
 				pause.setVisibility(View.GONE);
 				play.setVisibility(View.VISIBLE);
+				getActivity().
 			}
 		});
 
@@ -165,7 +166,6 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 					thread = new Thread(NowPlaying.this);
 					thread.start();
 				}
-
 
 				tvSongName.setText(songName);
 				if (albumID != 0) {
@@ -275,11 +275,7 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			Log.d(TAG, "seekUpdation: " + MusicService.songDuration);
 			if (MusicService.songDuration != 0) {
-
-
-				Log.d(TAG, "seekUpdation:22 " + MusicService.songDuration);
 
 				while (currentPosition < MusicService.songDuration) {
 					try {
@@ -288,8 +284,10 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 						Thread.sleep(1000);
 						if (MusicService.mediaPlayer.isPlaying()) {
 							currentPosition = mediaPlayer.getCurrentPosition();
-						} else {
-							currentPosition = 0;
+						} else if (currentPosition > 0) {
+
+						} else if (currentPosition == 0) {
+							bar.setMax(100);
 						}
 					} catch (InterruptedException e) {
 						e.printStackTrace();
@@ -309,7 +307,8 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 			public void onReceive (Context context, Intent intent) {
 
 				mediaPlayer = MusicService.getMediaPlayer();
-				songsList = new ArrayList<>();
+				if (songsList == null)
+					songsList = new ArrayList<>();
 
 				if (thread == null) {
 					thread = new Thread(NowPlaying.this);
@@ -317,9 +316,26 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 				}
 
 				Bitmap bmp = null;
-				position = intent.getIntExtra("position", 0);
 
-				songsList = (ArrayList<AudioModel>) intent.getSerializableExtra("Songs_List");
+				int songPosition = intent.getIntExtra("position", 0);
+
+				ArrayList<AudioModel> audioList = new ArrayList<>();
+
+				audioList = (ArrayList<AudioModel>) intent.getSerializableExtra("Songs_List");
+				Log.d(TAG, "onReceive:33 " + songsList);
+				Log.d(TAG, "onReceive:44 " + audioList);
+
+				if (position == songPosition && audioList.size() == songsList.size()) {
+					Log.d(TAG, "onReceive:11 ");
+					play.setVisibility(View.VISIBLE);
+					pause.setVisibility(View.GONE);
+				} else {
+					Log.d(TAG, "onReceive:22 ");
+					play.setVisibility(View.GONE);
+					pause.setVisibility(View.VISIBLE);
+				}
+				position = songPosition;
+				songsList = audioList;
 				songSource = intent.getStringExtra("Song_Source");
 				songName = songsList.get(position).getaName();
 				tvSongName.setText(songName);
@@ -338,8 +354,7 @@ public class NowPlaying extends Fragment implements SeekBar.OnSeekBarChangeListe
 					songIcon.setImageDrawable(null);
 					songIcon.setImageDrawable(drawable);
 				}
-				play.setVisibility(View.GONE);
-				pause.setVisibility(View.VISIBLE);
+
 			}
 
 		};
