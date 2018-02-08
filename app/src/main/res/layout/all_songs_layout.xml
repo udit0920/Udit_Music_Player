@@ -1,91 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/music_row"
-    android:layout_width="match_parent"
-    android:layout_height="60dp"
-    android:background="#1F2D38"
-    android:orientation="vertical">
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+				xmlns:tools = "http://schemas.android.com/tools"
+				android:id = "@+id/music_row"
+				android:layout_width = "match_parent"
+				android:layout_height = "60dp"
+				android:background = "#1F2D38"
+				android:orientation = "vertical">
 
-    <LinearLayout
-        android:id="@+id/btn_pause_play"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="15dp"
-        android:gravity="center_vertical">
+  <LinearLayout
+	android:id = "@+id/btn_pause_play"
+	android:layout_width = "wrap_content"
+	android:layout_height = "match_parent"
+	android:layout_marginLeft = "15dp"
+	android:gravity = "center_vertical">
 
-        <ImageView
-            android:id="@+id/btn_play"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:background="@drawable/ic_play_arrow_white_24dp" />
-        <ImageView
-            android:id="@+id/btn_pause"
-            android:visibility="gone"
-            android:background="@drawable/ic_pause_white_24dp"
-            android:layout_width="25dp"
-            android:layout_height="25dp" />
+	<ImageView
+	  android:id = "@+id/btn_play"
+	  android:layout_width = "25dp"
+	  android:layout_height = "25dp"
+	  android:background = "@drawable/ic_play_arrow_white_24dp"/>
 
-    </LinearLayout>
+	<ImageView
+	  android:id = "@+id/btn_pause"
+	  android:layout_width = "25dp"
+	  android:layout_height = "25dp"
+	  android:background = "@drawable/ic_pause_white_24dp"
+	  android:visibility = "gone"/>
 
-    <LinearLayout
-        android:layout_toLeftOf="@+id/song_duration"
-        android:id="@+id/songs_info"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="45dp"
-        android:layout_toRightOf="@+id/btn_pause_play"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+	<CheckBox
+	  android:id = "@+id/cb_playlist"
+	  android:layout_width = "wrap_content"
+	  android:layout_height = "wrap_content"
+	  android:backgroundTint = "#ffffff"
+	  android:visibility = "gone"/>
 
-        <TextView
-            android:id="@+id/tv_song_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:textColor="#ffffff"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            tools:text="Not afraid" />
+  </LinearLayout>
 
-        <TextView
-            android:id="@+id/tv_singer_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_song_name"
-            android:layout_marginTop="3dp"
-            android:maxLines="1"
-            android:textColor="#706363"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            tools:text="Eminem" />
+  <LinearLayout
+	android:id = "@+id/songs_info"
+	android:layout_width = "wrap_content"
+	android:layout_height = "match_parent"
+	android:layout_marginLeft = "45dp"
+	android:layout_toLeftOf = "@+id/song_duration"
+	android:layout_toRightOf = "@+id/btn_pause_play"
+	android:gravity = "center_vertical"
+	android:orientation = "vertical">
 
-    </LinearLayout>
+	<TextView
+	  android:id = "@+id/tv_song_name"
+	  android:layout_width = "wrap_content"
+	  android:layout_height = "wrap_content"
+	  android:maxLines = "1"
+	  android:textColor = "#ffffff"
+	  android:textSize = "15dp"
+	  android:textStyle = "bold"
+	  tools:text = "Not afraid"/>
 
-    <LinearLayout
-        android:id="@+id/song_duration"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:gravity="center_vertical">
+	<TextView
+	  android:id = "@+id/tv_singer_name"
+	  android:layout_width = "wrap_content"
+	  android:layout_height = "wrap_content"
+	  android:layout_below = "@+id/tv_song_name"
+	  android:layout_marginTop = "3dp"
+	  android:maxLines = "1"
+	  android:textColor = "#706363"
+	  android:textSize = "12dp"
+	  android:textStyle = "bold"
+	  tools:text = "Eminem"/>
 
-        <TextView
-            android:layout_marginLeft="15dp"
-            android:id="@+id/tv_duration"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:textColor="#ffffff"
-            tools:text="4:24" />
+  </LinearLayout>
 
-    </LinearLayout>
+  <LinearLayout
+	android:id = "@+id/song_duration"
+	android:layout_width = "wrap_content"
+	android:layout_height = "match_parent"
+	android:layout_alignParentRight = "true"
+	android:gravity = "center_vertical"
+	android:orientation = "horizontal">
 
-    <View
-        android:layout_alignParentBottom="true"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:background="#808080" />
+	<TextView
+	  android:id = "@+id/tv_duration"
+	  android:layout_width = "wrap_content"
+	  android:layout_height = "wrap_content"
+	  android:layout_marginLeft = "15dp"
+	  android:layout_marginRight = "20dp"
+	  android:textColor = "#ffffff"
+	  tools:text = "4:24"/>
+
+
+  </LinearLayout>
+
+  <View
+	android:layout_width = "match_parent"
+	android:layout_height = "1dp"
+	android:layout_alignParentBottom = "true"
+	android:layout_marginLeft = "10dp"
+	android:layout_marginRight = "10dp"
+	android:background = "#808080"/>
 
 </RelativeLayout>

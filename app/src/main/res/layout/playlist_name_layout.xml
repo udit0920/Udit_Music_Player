@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+				xmlns:tools = "http://schemas.android.com/tools"
+				android:layout_width = "match_parent"
+				android:layout_height = "60dp"
+				android:background = "#1F2D38"
+				android:gravity = "center_vertical"
+				android:orientation = "vertical"
+  >
+
+  <View
+	android:id = "@+id/view_playList_option"
+	android:layout_width = "match_parent"
+	android:layout_height = "60dp"/>
+
+  <ImageView
+	android:layout_marginLeft="20dp"
+	android:layout_centerVertical="true"
+	android:id="@+id/iv_playlist"
+	android:layout_width = "35dp"
+	android:layout_height = "35dp"
+	android:src = "@drawable/playlist"/>
+
+  <TextView
+	android:layout_toRightOf="@+id/iv_playlist"
+	android:id = "@+id/tv_playList_names"
+	android:layout_width = "wrap_content"
+	android:layout_height = "wrap_content"
+	android:layout_centerVertical = "true"
+	android:layout_marginLeft = "25dp"
+	android:textColor = "#ffffff"
+	android:textSize = "15dp"
+	android:textStyle = "bold"
+	tools:text = "ROCK"/>
+
+  <View
+	android:layout_width = "match_parent"
+	android:layout_height = "1dp"
+	android:layout_below = "@+id/view_playList_option"
+	android:background = "#808080"/>
+</RelativeLayout>

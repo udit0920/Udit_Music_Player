@@ -6,109 +6,135 @@ import android.media.MediaPlayer;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.widget.Toast;
+
+import com.abhiandroid.Activities.AudioModel;
+import com.abhiandroid.Activities.Fragments.NowPlaying;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 /**
  * Created by uditsetia on 27/12/17.
  */
 public class MusicService extends Service {
 
-    private static final String TAG = "MusicService";
-    public static MediaPlayer mediaPlayer;
-    int position;
+	private static final String TAG = "MusicService";
+	public static MediaPlayer mediaPlayer;
+	static MusicService musicService;
+	String songSource = "";
+	public static int songDuration = 0;
+	static int position;
+	ArrayList<AudioModel> songsList;
 
-    public MusicService(){
+	public MusicService () {
 
-    }
-
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        Log.d(TAG,"Music Service Created");
-        mediaPlayer = new  MediaPlayer();
-//        Toast.makeText(getBaseContext(),"CHAMP",Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
+	}
 
 
-            mediaPlayer.stop();
-            mediaPlayer.reset();
+	public static MediaPlayer getMediaPlayer () {
+		return mediaPlayer;
+	}
 
-        Log.d(TAG, "onStartCommand: MediaPlayer "+mediaPlayer);
-//        Toast.makeText(getBaseContext(),"MediaPlayer "+mediaPlayer,Toast.LENGTH_LONG).show();
-        position = intent.getIntExtra("position",0);
-        String PATH_TO_FILE = intent.getStringExtra("file_path");
-        Log.d(TAG, "onStartCommand: FilePath "+PATH_TO_FILE);
+	@Override
+	public void onCreate () {
+		super.onCreate();
+		Log.d(TAG, "Music Service Created");
+		mediaPlayer = new MediaPlayer();
+	}
 
-        try {
-            mediaPlayer.setDataSource(PATH_TO_FILE);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            mediaPlayer.prepare();
-            mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                @Override
-                public void onPrepared(MediaPlayer mp) {
-                    mp.start();
-                }
-            });
-//            mediaPlayer.prepareAsync();
-//            mediaPlayer.setOnPreparedListener(this);
-//            mediaPlayer.prepareAsync();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-
-            @Override
-            public void onCompletion(MediaPlayer mp) {
-                performOnEnd();
-            }
-
-        });
-        mediaPlayer.start();
-        return START_NOT_STICKY;
-
-    }
+	@Override
+	public int onStartCommand (Intent intent, int flags, int startId) {
 
 
+		mediaPlayer.stop();
+
+		mediaPlayer.reset();
+
+		songsList = new ArrayList<>();
+		songsList = (ArrayList<AudioModel>) intent.getSerializableExtra("SONGS_LIST");
+		songSource = intent.getStringExtra("Song_Source");
+
+		position = intent.getIntExtra("position", 0);
+		String PATH_TO_FILE = intent.getStringExtra("file_path");
+
+		try {
+			mediaPlayer.setDataSource(PATH_TO_FILE);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			mediaPlayer.prepare();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+			@Override
+			public void onPrepared (MediaPlayer mp) {
+				mediaPlayer.start();
+				songDuration = mp.getDuration();
+				NowPlaying.bar.setProgress(0);
+				NowPlaying.bar.setMax(mp.getDuration());
+			}
+		});
+
+		mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+			@Override
+			public void onCompletion (MediaPlayer mp) {
+				performOnEnd();
+			}
+
+		});
+
+		mediaPlayer.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+			public boolean onError (MediaPlayer mp, int what, int extra) {
+				return true;
+			}
+		});
+
+		return START_NOT_STICKY;
+
+	}
 
 
+	private void performOnEnd () {
 
+		if (songSource.equals("playList")) {
+			Log.d(TAG, "performOnEnd: YO");
+			Intent intent = new Intent("udit.ButtonState.PlayLists");
+			intent.putExtra("SONGS_LIST", songsList);
+			intent.putExtra("btnState", 0);
+			intent.putExtra("position", position);
+			sendBroadcast(intent);
+		} else if (songSource.equals("allSongs")) {
+			Intent intent = new Intent("udit.ButtonState");
+			intent.putExtra("SONGS_LIST", songsList);
+			intent.putExtra("btnState", 0);
+			intent.putExtra("position", position);
+			sendBroadcast(intent);
+		}
 
-    private void performOnEnd() {
-        Intent intent = new Intent("udit.ButtonState");
-        intent.putExtra("btnState",0);
-        intent.putExtra("position",position);
-        Log.d(TAG, "performOnEnd: champ");
-        sendBroadcast(intent);
-    }
+	}
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
+	@Override
+	public void onDestroy () {
+		super.onDestroy();
+	}
 
-    }
+	@Nullable
+	@Override
+	public IBinder onBind (Intent intent) {
+		return null;
+	}
 
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+	public void pauseSong () {
+		mediaPlayer.pause();
+	}
 
-    public void pauseSong(){
-        mediaPlayer.pause();
-    }
-
-    public void playSong(){
-        mediaPlayer.start();
-    }
+	public void playSong () {
+		mediaPlayer.start();
+	}
 
 
 }
