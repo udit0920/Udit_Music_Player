@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities;
+package udit.setia.music.player;
 
 /**
  * Created by uditsetia on 24/1/18.

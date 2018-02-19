@@ -12,7 +12,7 @@
 	android:theme = "@style/Theme.AppCompat.Light.NoActionBar"
 	>
 	<activity
-	  android:name = ".MainActivity"
+	  android:name = "udit.setia.music.player.MainActivity"
 	  android:label = "@string/app_name"
 	  android:screenOrientation = "portrait"
 	  >
@@ -25,7 +25,7 @@
 	</activity>
 
 	<activity
-	  android:name = ".CreatePlayListDialog"
+	  android:name = "udit.setia.music.player.CreatePlayListDialog"
 	  android:screenOrientation = "portrait"
 	  android:theme = "@style/Theme.MyDialog"
 	  >
@@ -33,7 +33,8 @@
 	</activity>
 
 	<activity
-	  android:name = ".SelectSongs"
+	  android:parentActivityName="udit.setia.music.player.MainActivity"
+	  android:name = "udit.setia.music.player.SelectSongs"
 	  android:label = "Select Songs"
 	  android:screenOrientation = "portrait"
 	  >
@@ -41,12 +42,12 @@
 	</activity>
 
 	<activity
-	  android:name = ".PlayListActivity"
+	  android:name = "udit.setia.music.player.PlayListActivity"
 	  android:label = "Selected PlayList"
 	  android:screenOrientation = "portrait"
 	  />
 
-	<service android:name = ".Services.MusicService"/>
+	<service android:name = "udit.setia.music.player.Services.MusicService"/>
 
   </application>
 

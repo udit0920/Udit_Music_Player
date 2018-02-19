@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities.Fragments;
+package udit.setia.music.player.Fragments;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -13,12 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.abhiandroid.Activities.Adapters.AllSongsAdapter;
-import com.abhiandroid.Activities.AudioModel;
 import com.abhiandroid.Activities.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import udit.setia.music.player.Adapters.AllSongsAdapter;
+import udit.setia.music.player.AudioModel;
 
 public class AllSongs extends Fragment {
 
@@ -42,7 +43,7 @@ public class AllSongs extends Fragment {
 		audioFilesList = getAllAudioFromDevice(getActivity());
 		Log.d("", "onCreateView: " + audioFilesList.size());
 		RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv_all_songs);
-		adapter = new AllSongsAdapter(audioFilesList, getActivity(), 1 );
+		adapter = new AllSongsAdapter(getActivity(), audioFilesList, getActivity(), 1);
 		rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
 		rv.setAdapter(adapter);
 		return view;
@@ -64,6 +65,17 @@ public class AllSongs extends Fragment {
 		super.onPause();
 		adapter.myOnDestroy();
 	}
+
+	public void updatePausePlayState (int position, int state) {
+
+		adapter.updatePausePlayState(position, state);
+	}
+
+	public void updatePlayState (int songsListSize,int nxtPrev,int position) {
+
+		adapter.updatePlayState(songsListSize,nxtPrev,position);
+	}
+
 
 	public List<AudioModel> getAllAudioFromDevice (final Context context) {
 

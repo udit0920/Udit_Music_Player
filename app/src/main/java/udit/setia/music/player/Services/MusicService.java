@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities.Services;
+package udit.setia.music.player.Services;
 
 import android.app.Service;
 import android.content.Intent;
@@ -7,11 +7,11 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.abhiandroid.Activities.AudioModel;
-import com.abhiandroid.Activities.Fragments.NowPlaying;
-
 import java.io.IOException;
 import java.util.ArrayList;
+
+import udit.setia.music.player.AudioModel;
+import udit.setia.music.player.Fragments.NowPlaying;
 
 /**
  * Created by uditsetia on 27/12/17.
@@ -38,7 +38,7 @@ public class MusicService extends Service {
 	@Override
 	public void onCreate () {
 		super.onCreate();
-		Log.d(TAG, "Music Service Created");
+		Log.d(TAG, "run: 202020202");
 		mediaPlayer = new MediaPlayer();
 	}
 

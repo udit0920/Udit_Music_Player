@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities;
+package udit.setia.music.player;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -62,7 +61,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
 
 		Log.d(TAG, "savePlayList: " + playListName);
-		Toast.makeText(context, "Important    " + playListName + "   SIZE " + listData.size(), Toast.LENGTH_LONG).show();
+		//Toast.makeText(context, "Important    " + playListName + "   SIZE " + listData.size(), Toast.LENGTH_LONG).show();
 
 		SQLiteDatabase db = this.getWritableDatabase();
 		ContentValues cv = new ContentValues();
@@ -70,7 +69,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		db.insert(TABLE_ALL_PLAYLIST, null, cv);
 
 		for (int i = 0; i < listData.size(); i++) {
-			//			Toast.makeText(context,"list ",Toast.LENGTH_LONG).show();
+			//			//Toast.makeText(context,"list ",Toast.LENGTH_LONG).show();
 			ContentValues cv_2 = new ContentValues();
 			cv_2.put(COLUMN_PLAYLIST_NAME2, playListName);
 			cv_2.put(COLUMN_ARTIST_NAME, listData.get(i).getaArtist());
@@ -79,13 +78,13 @@ public class DbHelper extends SQLiteOpenHelper {
 			cv_2.put(COLUMN_SONG_NAME, listData.get(i).getaName());
 			cv_2.put(COLUMN_ALBUM_ID, listData.get(i).getAlbumID());
 			long x = db.insert(TABLE_NAME, null, cv_2);
-			Toast.makeText(context, "x = " + x, Toast.LENGTH_LONG).show();
+			//Toast.makeText(context, "x = " + x, Toast.LENGTH_LONG).show();
 
 		}
 
 		Intent intent = new Intent("udit.update.playLists");
 		context.sendBroadcast(intent);
-		Toast.makeText(context, "Receiver sent", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "Receiver sent", Toast.LENGTH_SHORT).show();
 
 	}
 
@@ -117,7 +116,7 @@ public class DbHelper extends SQLiteOpenHelper {
 		Cursor cursor = db.rawQuery(query, null);
 
 		ArrayList<AudioModel> output = new ArrayList<>();
-		Toast.makeText(context, "Size of playList " + playListName + cursor.getCount(), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(context, "Size of playList " + playListName + cursor.getCount(), Toast.LENGTH_SHORT).show();
 		if (cursor.moveToFirst()) {
 			do {
 				AudioModel model = new AudioModel();

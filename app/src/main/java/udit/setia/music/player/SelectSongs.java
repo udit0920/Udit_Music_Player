@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities;
+package udit.setia.music.player;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,10 +15,12 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 
-import com.abhiandroid.Activities.Adapters.AllSongsAdapter;
+import com.abhiandroid.Activities.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import udit.setia.music.player.Adapters.AllSongsAdapter;
 
 /**
  * Created by uditsetia on 27/01/18.
@@ -39,7 +41,7 @@ public class SelectSongs extends AppCompatActivity {
 		myToolbar.setTitleTextColor(getResources().getColor(R.color.actionBar));
 
 		List<AudioModel> audioFilesList = getAllAudioFromDevice(this);
-		final AllSongsAdapter adapter = new AllSongsAdapter(audioFilesList, this, 2);
+		final AllSongsAdapter adapter = new AllSongsAdapter(getParent(), audioFilesList, this, 2);
 
 		RecyclerView rv = (RecyclerView) findViewById(R.id.rv_select_songs);
 		rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));

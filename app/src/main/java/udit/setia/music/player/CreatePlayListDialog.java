@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities;
+package udit.setia.music.player;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,7 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+
+import com.abhiandroid.Activities.R;
 
 /**
  * Created by uditsetia on 24/1/18.
@@ -36,7 +37,7 @@ public class CreatePlayListDialog extends AppCompatActivity {
 			public void onClick (View v) {
 				String playListName = etPlayListname.getText().toString();
 				if (playListName.isEmpty()) {
-					Toast.makeText(CreatePlayListDialog.this, "Please enter a name for playlist", Toast.LENGTH_SHORT).show();
+					//Toast.makeText(CreatePlayListDialog.this, "Please enter a name for playlist", Toast.LENGTH_SHORT).show();
 				} else {
 					Intent intent = new Intent(CreatePlayListDialog.this, SelectSongs.class);
 					intent.putExtra("playListName", playListName);

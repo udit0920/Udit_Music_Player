@@ -1,9 +1,13 @@
-package com.abhiandroid.Activities.Adapters;
+package udit.setia.music.player.Adapters;
 
+import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,16 +17,22 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
-import com.abhiandroid.Activities.AudioModel;
-import com.abhiandroid.Activities.DbHelper;
 import com.abhiandroid.Activities.R;
-import com.abhiandroid.Activities.Services.MusicService;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import udit.setia.music.player.AudioModel;
+import udit.setia.music.player.DbHelper;
+import udit.setia.music.player.Fragments.AllSongs;
+import udit.setia.music.player.MainActivity;
+import udit.setia.music.player.Services.MusicService;
+
+import static android.content.Context.NOTIFICATION_SERVICE;
 
 /**
  * Created by uditsetia on 26/12/17.
@@ -43,12 +53,13 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 	public int y = 0;
 	int viewType;
 	MyViewHolder holder;
-	Intent intent;
+	public static Intent intent;
+	MainActivity activity;
 
-	public AllSongsAdapter (List<AudioModel> songsList, Context context, int viewType) {
+	public AllSongsAdapter (Activity activity, List<AudioModel> songsList, Context context, int viewType) {
 
 		this.songsList = songsList;
-
+		this.activity = (MainActivity) activity;
 		if (this.context == null) {
 			this.context = context;
 		}
@@ -57,6 +68,41 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 	}
 
 	public AllSongsAdapter () {
+
+	}
+
+	public void updatePausePlayState (int position, int btnState) {
+
+
+		songsList.get(position).setButtonState(btnState);
+		this.notifyItemChanged(position);
+
+	}
+
+	public void updatePlayState (int songsListSize, int nxtPrev, int position) {
+
+		// 1 : Next Button pressed in NowPlaying
+		// 0 : Prev Button pressed in NowPlaying
+
+		if (nxtPrev == 1) {
+			if (position != 0) {
+				songsList.get(position - 1).setButtonState(0);
+				songsList.get(position).setButtonState(1);
+				this.notifyItemChanged(position - 1);
+				this.notifyItemChanged(position);
+			} else {
+				songsList.get(songsListSize - 1).setButtonState(0);
+				songsList.get(position).setButtonState(1);
+				this.notifyItemChanged(songsListSize - 1);
+				this.notifyItemChanged(position);
+			}
+		} else {
+			songsList.get(position + 1).setButtonState(0);
+			songsList.get(position).setButtonState(1);
+			this.notifyItemChanged(position + 1);
+			this.notifyItemChanged(position);
+		}
+
 
 	}
 
@@ -71,18 +117,18 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 	public void setupBroadCast () {
 
 
-		btnStateReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive (Context context, Intent intent) {
-
-				Log.d(TAG, "onReceive: Songs");
-				for (int i = 0; i < songsList.size(); i++) {
-					songsList.get(i).setButtonState(0);
-				}
-
-				AllSongsAdapter.this.notifyDataSetChanged();
-			}
-		};
+		//		btnStateReceiver = new BroadcastReceiver() {
+		//			@Override
+		//			public void onReceive (Context context, Intent intent) {
+		//
+		//				Log.d(TAG, "onReceive: Songs");
+		//				for (int i = 0; i < songsList.size(); i++) {
+		//					songsList.get(i).setButtonState(0);
+		//				}
+		//
+		//				AllSongsAdapter.this.notifyDataSetChanged();
+		//			}
+		//		};
 
 		receiver = new BroadcastReceiver() {
 			@Override
@@ -114,28 +160,28 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 		if (x == 0) {
 			x = 1;
 			context.registerReceiver(receiver, new IntentFilter("udit.ButtonState"));
-			context.registerReceiver(btnStateReceiver, new IntentFilter("udit.btnState.from.Current.PlayList"));
+			//			context.registerReceiver(btnStateReceiver, new IntentFilter("udit.btnState.from.Current.PlayList"));
 		}
-		nowPlayingSongChangeReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive (Context context, Intent intent) {
-				int position = intent.getIntExtra("position", 0);
-				Log.d(TAG, "PAUSEPLAY  " + position);
-				for (int i = 0; i < songsList.size(); i++) {
-					if (i != position) {
-						songsList.get(i).setButtonState(0);
-					} else {
-						songsList.get(i).setButtonState(1);
-					}
-				}
-				AllSongsAdapter.this.notifyDataSetChanged();
-			}
-		};
-
-		if (y == 0) {
-			y = 1;
-			context.registerReceiver(nowPlayingSongChangeReceiver, new IntentFilter("udit.updateButtonStateFromNowPlaying"));
-		}
+		////		nowPlayingSongChangeReceiver = new BroadcastReceiver() {
+		////			@Override
+		////			public void onReceive (Context context, Intent intent) {
+		////				int position = intent.getIntExtra("position", 0);
+		////				Log.d(TAG, "PAUSEPLAY  " + position);
+		////				for (int i = 0; i < songsList.size(); i++) {
+		////					if (i != position) {
+		////						songsList.get(i).setButtonState(0);
+		////					} else {
+		////						songsList.get(i).setButtonState(1);
+		////					}
+		////				}
+		////				AllSongsAdapter.this.notifyDataSetChanged();
+		////			}
+		////		};
+		//
+		//		if (y == 0) {
+		//			y = 1;
+		//			context.registerReceiver(nowPlayingSongChangeReceiver, new IntentFilter("udit.updateButtonStateFromNowPlaying"));
+		//		}
 
 	}
 
@@ -224,14 +270,10 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 	}
 
 	private void stopSong (int position) {
-		//		NowPlaying.bar.setMax(100);
-		//		NowPlaying.bar.setProgress(0);
-		MusicService.mediaPlayer.pause();
 
-		Log.d(TAG, "stopSong: " + MusicService.mediaPlayer.getDuration());
-		//		MusicService.mediaPlayer.reset();
+		MusicService.mediaPlayer.pause();
 		this.notifyItemChanged(position);
-		updateNowPlaying(position);
+		updateNowPlaying("allSongs", position, 0);
 
 	}
 
@@ -270,31 +312,86 @@ public class AllSongsAdapter extends RecyclerView.Adapter<AllSongsAdapter.MyView
 
 
 	private void playSong (String filePath, int position) {
-
-		intent = new Intent(context, MusicService.class);
+		if (intent == null) {
+			intent = new Intent(context, MusicService.class);
+		}
 		Log.d(TAG, "playSong: " + songsList.size());
 		intent.putExtra("SONGS_LIST", (Serializable) songsList);
 		intent.putExtra("file_path", filePath);
 		intent.putExtra("position", position);
 		intent.putExtra("Song_Source", "allSongs");
 		context.startService(intent);
-		updateNowPlaying(position);
+
+		String songName = songsList.get(position).getaName();
+		//		createCustomNotification(songName, position);
+
+		updateNowPlaying("allSongs", position, 1);
+
+	}
+
+	private void createCustomNotification (String songName, int position) {
+
+		RemoteViews remoteViews = new RemoteViews(context.getApplicationContext().getPackageName(),
+				R.layout.custom_notification_view);
+
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+				.setSmallIcon(R.drawable.music)
+				.setAutoCancel(true)
+				.setContent(remoteViews);
+
+		Intent intentPrevSong = new Intent("udit.update.through.notification");
+		intentPrevSong.putExtra("songsList", (Serializable) songsList);
+		intentPrevSong.putExtra("songStatus", 1);
+		intentPrevSong.putExtra("songPosition", position - 1);
+		intentPrevSong.putExtra("songSource", "allSongs");
+
+		Intent intentNextSong = new Intent("udit.update.through.notification");
+		intentNextSong.putExtra("songsList", (Serializable) songsList);
+		intentNextSong.putExtra("songStatus", 1);
+		intentNextSong.putExtra("songPosition", position + 1);
+		intentNextSong.putExtra("songSource", "allSongs");
+
+		Intent intentPauseSong = new Intent("udit.update.through.notification");
+		intentPauseSong.putExtra("songsList", (Serializable) songsList);
+		intentPauseSong.putExtra("songStatus", 0);
+		intentPauseSong.putExtra("songPosition", position);
+		intentPauseSong.putExtra("songSource", "allSongs");
+
+		Intent intentPlaySong = new Intent("udit.update.through.notification");
+		intentPlaySong.putExtra("songsList", (Serializable) songsList);
+		intentPlaySong.putExtra("songStatus", 1);
+		intentPlaySong.putExtra("songPosition", position);
+		intentPlaySong.putExtra("songSource", "allSongs");
+
+
+		PendingIntent previous = PendingIntent.getBroadcast(context, 1, intentPrevSong, 0);
+		PendingIntent next = PendingIntent.getBroadcast(context, 1, intentNextSong, 0);
+		PendingIntent play = PendingIntent.getBroadcast(context, 1, intentPauseSong, 0);
+		PendingIntent pause = PendingIntent.getBroadcast(context, 1, intentPlaySong, 0);
+
+		remoteViews.setTextViewText(R.id.tv_song_name, songName);
+		remoteViews.setOnClickPendingIntent(R.id.btn_previous, previous);
+		remoteViews.setOnClickPendingIntent(R.id.btn_next, next);
+		remoteViews.setOnClickPendingIntent(R.id.btn_play, play);
+		remoteViews.setOnClickPendingIntent(R.id.btn_pause, pause);
+
+		// Create Notification Manager
+		NotificationManager notificationmanager = (NotificationManager) context.getSystemService(NOTIFICATION_SERVICE);
+		// Build Notification with Notification Manager
+		notificationmanager.notify(0, builder.build());
 
 	}
 
 
-	private void updateNowPlaying (int position) {
+	private void updateNowPlaying (String songSource, int position, int pausePlay) {
 
-		Intent intent = new Intent("udit.update.nowPlaying");
-		intent.putExtra("Song_Source", "allSongs");
-		intent.putExtra("position", position);
-		intent.putExtra("Songs_List", (Serializable) songsList);
-		intent.putExtra("songName", songsList.get(position).getaName());
-		intent.putExtra("singer", songsList.get(position).getaArtist());
-		intent.putExtra("filePath", songsList.get(position).getaPath());
-		int albumID = songsList.get(position).getAlbumID();
-		intent.putExtra("albumID", albumID);
-		context.sendBroadcast(intent);
+
+		if (songsList == null) {
+			songsList = AllSongs.audioFilesList;
+		}
+
+		List<AudioModel> songsList = this.songsList;
+		activity.updateNowPlaying(songSource, songsList, position, pausePlay);
 
 	}
 

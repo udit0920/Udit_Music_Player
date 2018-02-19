@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities.Fragments;
+package udit.setia.music.player.Fragments;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -14,14 +14,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
-import com.abhiandroid.Activities.Adapters.PlayListAdapter;
-import com.abhiandroid.Activities.CreatePlayListDialog;
-import com.abhiandroid.Activities.DbHelper;
 import com.abhiandroid.Activities.R;
 
 import java.util.ArrayList;
+
+import udit.setia.music.player.Adapters.PlayListAdapter;
+import udit.setia.music.player.CreatePlayListDialog;
+import udit.setia.music.player.DbHelper;
 
 public class PlayLists extends Fragment {
 
@@ -45,7 +45,7 @@ public class PlayLists extends Fragment {
 	@Override
 	public void onPause () {
 		super.onPause();
-		//		Toast.makeText(getContext(), "Receiver unregistered", Toast.LENGTH_SHORT).show();
+		//		//Toast.makeText(getContext(), "Receiver unregistered", Toast.LENGTH_SHORT).show();
 		//		getActivity().unregisterReceiver(receiver);
 	}
 
@@ -61,7 +61,7 @@ public class PlayLists extends Fragment {
 		db = DbHelper.getInstance(getContext());
 		allPlayLists = db.getAllPlayLists();
 
-		Toast.makeText(getContext(), "reciever st " + allPlayLists.size(), Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getContext(), "reciever st " + allPlayLists.size(), Toast.LENGTH_SHORT).show();
 
 		final PlayListAdapter adapter = new PlayListAdapter(getActivity(), allPlayLists, tabLayout, viewPager);
 		rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false));
@@ -85,11 +85,11 @@ public class PlayLists extends Fragment {
 				allPlayLists.add(addedPlayList);
 
 				adapter.notifyDataSetChanged();
-				Toast.makeText(getContext(), "reciever Received " + allPlayLists.size(), Toast.LENGTH_SHORT).show();
+				//Toast.makeText(getContext(), "reciever Received " + allPlayLists.size(), Toast.LENGTH_SHORT).show();
 
 			}
 		};
-		Toast.makeText(getContext(), "Receiver registered", Toast.LENGTH_SHORT).show();
+		//Toast.makeText(getContext(), "Receiver registered", Toast.LENGTH_SHORT).show();
 		getActivity().registerReceiver(receiver, new IntentFilter("udit.update.playLists"));
 
 		return inflateView;

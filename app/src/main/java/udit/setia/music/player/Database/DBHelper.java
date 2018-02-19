@@ -1,12 +1,12 @@
-package com.abhiandroid.Activities.Database;
+package udit.setia.music.player.Database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.abhiandroid.Activities.AudioModel;
-
 import java.util.ArrayList;
+
+import udit.setia.music.player.AudioModel;
 
 /**
  * Created by uditsetia on 07/01/18.

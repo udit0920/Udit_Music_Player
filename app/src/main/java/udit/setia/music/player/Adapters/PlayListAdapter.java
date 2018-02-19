@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities.Adapters;
+package udit.setia.music.player.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.abhiandroid.Activities.R;
 
@@ -52,7 +51,7 @@ public class PlayListAdapter extends RecyclerView.Adapter<PlayListAdapter.MyView
 			@Override
 			public void onClick (View v) {
 				Intent intent = new Intent("udit.selected.playList");
-				Toast.makeText(context,"AnswerDDDD "+playLists.get(position),Toast.LENGTH_LONG).show();
+				//Toast.makeText(context,"AnswerDDDD "+playLists.get(position),Toast.LENGTH_LONG).show();
 				intent.putExtra("selectedPlaylist",playLists.get(position));
 				context.sendBroadcast(intent);
 				tabLayout.setScrollPosition(3, 0f, true);

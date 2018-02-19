@@ -1,109 +1,109 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="#1F2D38">
+<RelativeLayout xmlns:android = "http://schemas.android.com/apk/res/android"
+				xmlns:app = "http://schemas.android.com/apk/res-auto"
+				xmlns:tools = "http://schemas.android.com/tools"
+				android:layout_width = "match_parent"
+				android:layout_height = "match_parent"
+				android:background = "#1F2D38">
 
 
+  <LinearLayout
+	android:layout_width = "match_parent"
+	android:layout_height = "match_parent"
+	android:layout_above = "@+id/display"
+	android:layout_marginBottom = "30dp"
+	android:layout_marginLeft = "30dp"
+	android:layout_marginRight = "30dp"
+	android:layout_marginTop = "30dp"
+	android:orientation = "vertical">
 
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_above="@+id/display"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <ImageView
-        tools:background="@drawable/music"
-        android:id="@+id/iv_song_icon"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/display"
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_above="@+id/seekBar1"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_song_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            tools:text="Not Afraid" />
-
-        <TextView
-            android:visibility="gone"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/tv_singer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#ffffff"
-            tools:text="- Eminem" />
-    </LinearLayout>
+	<ImageView
+	  android:id = "@+id/iv_song_icon"
+	  android:layout_width = "match_parent"
+	  android:layout_height = "match_parent"
+	  tools:background = "@drawable/music"/>
 
 
-    <SeekBar
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:id="@+id/seekBar1"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_above="@+id/controls"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="15dp" />
+  </LinearLayout>
 
-    <RelativeLayout
-        android:id="@+id/controls"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_alignParentBottom="true"
-        android:background="#E7324F"
-        android:gravity="center"
-        android:orientation="horizontal">
+  <LinearLayout
+	android:id = "@+id/display"
+	android:layout_width = "match_parent"
+	android:layout_height = "60dp"
+	android:layout_above = "@+id/seekBar1"
+	android:gravity = "center"
+	android:orientation = "horizontal">
 
+	<TextView
+	  android:id = "@+id/tv_song_name"
+	  android:layout_width = "wrap_content"
+	  android:layout_height = "wrap_content"
+	  android:textColor = "#ffffff"
+	  tools:text = "Not Afraid"/>
 
-        <Button
-            android:layout_marginRight="10dp"
-            android:id="@+id/btn_previous"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_skip_previous_white_24dp" />
-
-        <Button
-            android:visibility="gone"
-            android:layout_toRightOf="@+id/btn_previous"
-            android:id="@+id/btn_pause"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_pause_white_24dp" />
-
-        <Button
-            android:layout_toRightOf="@+id/btn_previous"
-            android:id="@+id/btn_play"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_play_arrow_white_24dp" />
-
-        <Button
-            android:layout_marginLeft="45dp"
-            android:layout_toRightOf="@+id/btn_previous"
-            android:id="@+id/btn_next"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:background="@drawable/ic_skip_next_white_24dp" />
+	<TextView
+	  android:id = "@+id/tv_singer"
+	  android:layout_width = "wrap_content"
+	  android:layout_height = "wrap_content"
+	  android:layout_marginLeft = "10dp"
+	  android:textColor = "#ffffff"
+	  android:visibility = "gone"
+	  tools:text = "- Eminem"/>
+  </LinearLayout>
 
 
-    </RelativeLayout>
+  <SeekBar
+	android:id = "@+id/seekBar1"
+	android:layout_width = "match_parent"
+	android:layout_height = "wrap_content"
+	android:layout_above = "@+id/controls"
+	android:layout_centerHorizontal = "true"
+	android:layout_marginBottom = "15dp"
+	android:layout_marginLeft = "20dp"
+	android:layout_marginRight = "20dp"
+	android:paddingBottom = "15dp"/>
+
+  <RelativeLayout
+	android:id = "@+id/controls"
+	android:layout_width = "match_parent"
+	android:layout_height = "60dp"
+	android:layout_alignParentBottom = "true"
+	android:background = "#E7324F"
+	android:gravity = "center"
+	android:orientation = "horizontal">
+
+
+	<Button
+	  android:id = "@+id/btn_previous"
+	  android:layout_width = "35dp"
+	  android:layout_height = "35dp"
+	  android:layout_marginRight = "10dp"
+	  android:background = "@drawable/ic_skip_previous_white_24dp"/>
+
+	<Button
+	  android:id = "@+id/btn_pause"
+	  android:layout_width = "35dp"
+	  android:layout_height = "35dp"
+	  android:layout_toRightOf = "@+id/btn_previous"
+	  android:background = "@drawable/ic_pause_white_24dp"
+	  android:visibility = "gone"/>
+
+	<Button
+	  android:id = "@+id/btn_play"
+	  android:layout_width = "35dp"
+	  android:layout_height = "35dp"
+	  android:layout_toRightOf = "@+id/btn_previous"
+	  android:background = "@drawable/ic_play_arrow_white_24dp"/>
+
+	<Button
+	  android:id = "@+id/btn_next"
+	  android:layout_width = "35dp"
+	  android:layout_height = "35dp"
+	  android:layout_marginLeft = "45dp"
+	  android:layout_toRightOf = "@+id/btn_previous"
+	  android:background = "@drawable/ic_skip_next_white_24dp"/>
+
+
+  </RelativeLayout>
 
 
 </RelativeLayout>

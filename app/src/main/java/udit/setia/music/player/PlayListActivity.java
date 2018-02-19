@@ -1,4 +1,4 @@
-package com.abhiandroid.Activities;
+package udit.setia.music.player;
 
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -10,8 +10,10 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import com.abhiandroid.Activities.Adapters.PlayListSongsAdapter;
-import com.abhiandroid.Activities.Fragments.NowPlaying;
+import com.abhiandroid.Activities.R;
+
+import udit.setia.music.player.Adapters.PlayListSongsAdapter;
+import udit.setia.music.player.Fragments.NowPlaying;
 
 /**
  * Created by uditsetia on 29/01/18.
@@ -44,7 +46,7 @@ public class PlayListActivity extends AppCompatActivity {
 		myToolbar.setTitleTextColor(getResources().getColor(R.color.actionBar));
 
 		Drawable upArrow;
-		if (android.os.Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		} else {
 			upArrow = getResources().getDrawable(R.drawable.abc_ic_ab_back_material);
@@ -57,7 +59,7 @@ public class PlayListActivity extends AppCompatActivity {
 		this.setTitle(selectedPlaylist);
 
 		DbHelper db = DbHelper.getInstance(this);
-		adapter = new PlayListSongsAdapter(db.getPlayListSongs(selectedPlaylist), this, 1);
+		adapter = new PlayListSongsAdapter(this,db.getPlayListSongs(selectedPlaylist), this, 1);
 		RecyclerView rv = (RecyclerView) findViewById(R.id.rv_selected_playlist);
 		rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
 		rv.setAdapter(adapter);
